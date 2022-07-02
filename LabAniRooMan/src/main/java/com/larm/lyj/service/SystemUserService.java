@@ -3,6 +3,8 @@ package com.larm.lyj.service;
 import com.larm.lyj.entity.SystemUser;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.larm.lyj.form.RuleForm;
+import com.larm.lyj.form.SearchForm;
+import com.larm.lyj.vo.PageVO;
 import com.larm.lyj.vo.ResultVO;
 
 /**
@@ -15,4 +17,6 @@ import com.larm.lyj.vo.ResultVO;
  */
 public interface SystemUserService extends IService<SystemUser> {
     public ResultVO login(RuleForm ruleForm);
+    public PageVO list(Integer page,Integer size);
+    public PageVO search(SearchForm searchForm);
 }

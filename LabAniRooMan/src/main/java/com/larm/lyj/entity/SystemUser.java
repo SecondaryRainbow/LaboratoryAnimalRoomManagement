@@ -28,7 +28,7 @@ import lombok.EqualsAndHashCode;
 
     private String sex;
 
-    private String position;
+    private String post;
 
     private Integer level;
 

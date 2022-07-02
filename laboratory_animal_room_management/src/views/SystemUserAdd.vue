@@ -15,8 +15,8 @@
           </template>
         </div>
       </el-form-item>
-      <el-form-item label="职务" prop="position">
-        <el-input v-model="ruleForm.position"></el-input>
+      <el-form-item label="职务" prop="post">
+        <el-input v-model="ruleForm.post"></el-input>
       </el-form-item>
       <el-form-item label="级别" prop="level">
         <el-input v-model="ruleForm.level"></el-input>
@@ -46,7 +46,7 @@ export default {
         jobId:'',
         name: '',
         sex: '男',
-        position:'',
+        post:'',
         level:'',
         username: '',
         password: ''

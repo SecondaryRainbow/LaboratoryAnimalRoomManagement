@@ -5,6 +5,7 @@ import SystemUser from "@/views/SystemUser"
 import AnimalTransportPersonnel from "@/views/AnimalTransportPersonnel";
 import SystemUserAdd from "@/views/SystemUserAdd";
 import SystemUserManagement from "@/views/SystemUserManagement";
+import SystemUserUpdate from "@/views/SystemUserUpdate";
 
 Vue.use(VueRouter)
 
@@ -29,6 +30,11 @@ const routes = [
         path: '/systemUserManagement',
         name: '用户管理',
         component: SystemUserManagement
+      },
+      {
+        path: '/systemUserUpdate',
+        name: '修改用户信息',
+        component: SystemUserUpdate
       }
     ]
   },

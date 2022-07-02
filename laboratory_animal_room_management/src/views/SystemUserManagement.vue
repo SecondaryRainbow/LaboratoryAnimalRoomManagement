@@ -3,9 +3,9 @@
     <el-form style="margin-left: -40px" :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
       <el-form-item label="字段：" prop="key">
         <el-select v-model="ruleForm.key" style="width: 160px;float: left" placeholder="请选择字段">
-          <el-option label="宿管账号" value="username"></el-option>
-          <el-option label="宿管姓名" value="name"></el-option>
-          <el-option label="宿管电话" value="telephone"></el-option>
+          <el-option label="工号" value="job_id"></el-option>
+          <el-option label="姓名" value="name"></el-option>
+          <el-option label="职务" value="post"></el-option>
         </el-select>
       </el-form-item>
       <div style="border: 0px solid red;width: 400px;height: 60px;position: relative;top: -64px;left: 270px">
@@ -23,34 +23,39 @@
         style="width: 100%;position: relative;top:-30px">
       <el-table-column
           fixed
-          prop="id"
-          label="ID"
-          width="160">
-      </el-table-column>
-      <el-table-column
-          prop="username"
-          label="用户名"
-          width="160">
-      </el-table-column>
-      <el-table-column
-          prop="password"
-          label="密码"
-          width="160">
+          prop="jobId"
+          label="工号"
+          width="140">
       </el-table-column>
       <el-table-column
           prop="name"
           label="姓名"
-          width="160">
+          width="140">
       </el-table-column>
       <el-table-column
-          prop="gender"
+          prop="sex"
           label="性别"
-          width="160">
+          width="140">
       </el-table-column>
       <el-table-column
-          prop="telephone"
-          label="联系电话"
-          width="160">
+          prop="post"
+          label="职务"
+          width="140">
+      </el-table-column>
+      <el-table-column
+          prop="level"
+          label="级别"
+          width="140">
+      </el-table-column>
+      <el-table-column
+          prop="username"
+          label="用户名"
+          width="140">
+      </el-table-column>
+      <el-table-column
+          prop="password"
+          label="密码"
+          width="140">
       </el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
@@ -108,7 +113,7 @@ export default {
         if (valid) {
           const _this = this
           _this.ruleForm.page = _this.currentPage
-          axios.get('http://localhost:8181/dormitoryAdmin/search',{params:_this.ruleForm}).then(function (resp) {
+          axios.get('http://localhost:8181/systemUser/search',{params:_this.ruleForm}).then(function (resp) {
             _this.tableData = resp.data.data.data
             _this.total = resp.data.data.total
           })
@@ -118,31 +123,31 @@ export default {
     page(currentPage){
       const _this = this
       if(_this.ruleForm.value == ''){
-        axios.get('http://localhost:8181/dormitoryAdmin/list/'+currentPage+'/'+_this.pageSize).then(function (resp) {
+        axios.get('http://localhost:8181/systemUser/list/'+currentPage+'/'+_this.pageSize).then(function (resp) {
           _this.tableData = resp.data.data.data
           _this.total = resp.data.data.total
         })
       } else {
         _this.ruleForm.page = _this.currentPage
-        axios.get('http://localhost:8181/dormitoryAdmin/search',{params:_this.ruleForm}).then(function (resp) {
+        axios.get('http://localhost:8181/systemUser/search',{params:_this.ruleForm}).then(function (resp) {
           _this.tableData = resp.data.data.data
           _this.total = resp.data.data.total
         })
       }
     },
     edit(row){
-      this.$router.push('/dormitoryAdminUpdate?id='+row.id)
+      this.$router.push('/systemUserUpdate?jobId='+row.jobId)
     },
     del(row) {
       const _this = this
-      this.$confirm('确认删除【'+row.username+'】吗？', '提示', {
+      this.$confirm('确认删除【'+row.jobId+' '+row.username+'】吗？', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        axios.delete('http://localhost:8181/dormitoryAdmin/deleteById/'+row.id).then(function (resp) {
+        axios.delete('http://localhost:8181/systemUser/deleteById/'+row.jobId).then(function (resp) {
           if(resp.data.code==0){
-            _this.$alert('【'+row.username+'】已删除', '', {
+            _this.$alert('【'+row.jobId+' '+row.username+'】已删除', '', {
               confirmButtonText: '确定',
               callback: action => {
                 location.reload()
@@ -150,12 +155,17 @@ export default {
             });
           }
         });
+      }).catch(()=>{
+        this.$message({
+          type:'info',
+          message:'已取消删除'
+        });
       });
     }
   },
   created() {
     const _this = this
-    axios.get('http://localhost:8181/systemUser/list/'+_this.pageSize).then(function (resp) {
+    axios.get('http://localhost:8181/systemUser/list/1/'+_this.pageSize).then(function (resp) {
       _this.tableData = resp.data.data.data
       _this.total = resp.data.data.total
     })
